@@ -183,6 +183,7 @@
                 </div>
                 <div class="modal-footer">
                     <button id="editbtn" type="button" class="btn btn-primary">수정</button>
+                    <button id="deletebtn" type="button" class="btn btn-primary">삭제</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -223,6 +224,28 @@
                 <div class="modal-footer">
                     <button id="save-modal-btn" type="button" class="btn btn-primary">저장</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 멤버 삭제 모달 -->
+    <div class="modal fade" id="memberDeleteModal" tabindex="-1" role="dialog" aria-labelledby="memberDeleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="memberDeleteModalLabel">게시물 삭제</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    멤버를 정말 삭제하시겠습니까?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">삭제</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -362,6 +385,12 @@
             $('#memberEditModal').modal('show');
         });
 
+        // 삭제 버튼 클릭 시 삭제 모달 표시
+        $('#deletebtn').click(function () {
+            $('#memberDeleteModal').modal('show');
+
+        });
+
         // 멤버 추가 버튼 클릭 시 입력 폼 표시
         $('#addbtn').click(function () {
             $('#postingbox').toggle();
@@ -424,6 +453,22 @@
                 console.error("수정 실패:", error);
                 alert('수정 실패');
             }
+        });
+
+        // 멤버 삭제 버튼 클릭 시 Firestore 데이터 삭제
+        $('#delete-modal-btn').click(async function () {
+            try {
+                let name = $('#modal-name-input').val();
+
+                let docRef = doc(db, "meminfo", name);
+                await deleteDoc(docRef);
+                $('#memberDeleteModal').modal('hide');
+                alert('삭제 완료');
+            } catch (error) {
+                console.error("삭제 실패:", error);
+                alert('삭제 실패');
+            }
+
         });
     </script>
 
