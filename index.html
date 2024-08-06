@@ -284,8 +284,8 @@
               <input
                 type="text"
                 class="form-control"
-                id="mymbti"
-                placeholder="mbti"
+                id="modal-mbti-input"
+                placeholder="MBTI"
               />
               <label for="modal-mbti-input">MBTI</label>
             </div>
@@ -293,8 +293,8 @@
               <input
                 type="text"
                 class="form-control"
-                id="myfavorite"
-                placeholder="favorite"
+                id="modal-favorite-input"
+                placeholder="좋아하는것"
               />
               <label for="modal-favorite-input">좋아하는것</label>
             </div>
@@ -302,7 +302,7 @@
               <input
                 type="text"
                 class="form-control"
-                id="myblog"
+                id="modal-blog-input"
                 placeholder="blog"
               />
               <label for="modal-blog-input">블로그</label>
@@ -381,21 +381,26 @@
         <label for="role">멤버 직책</label>
       </div>
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="name" placeholder="mbti" />
-        <label for="name">mbti</label>
+        <input type="text" class="form-control" id="mbti" placeholder="MBTI" />
+        <label for="mbti">MBTI</label>
       </div>
       <div class="form-floating mb-3">
         <input
           type="text"
           class="form-control"
-          id="name"
-          placeholder="favorite"
+          id="favorite"
+          placeholder="좋아하는것"
         />
-        <label for="name">favorite</label>
+        <label for="favorite">좋아하는것</label>
       </div>
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="name" placeholder="blog" />
-        <label for="name">blog</label>
+        <input
+          type="text"
+          class="form-control"
+          id="blog"
+          placeholder="블로그"
+        />
+        <label for="blog">블로그</label>
       </div>
       <div class="form-floating mb-3">
         <input type="text" class="form-control" id="intro" placeholder="소개" />
@@ -576,6 +581,9 @@
           let role = $("#modal-role-input").val();
           let intro = $("#modal-intro-input").val();
           let github = $("#modal-github-input").val();
+          let favorite = $("#modal-favorite-input").val();
+          let blog = $("#modal-blog-input").val();
+          let mbti = $("#modal-mbti-input").val();
 
           let docRef = doc(db, "meminfo", id);
           await updateDoc(docRef, {
@@ -584,12 +592,18 @@
             role: role,
             intro: intro,
             github: github,
+            mbti: mbti,
+            favorite: favorite,
+            blog: blog,
           });
 
           currentEditCard.find(".card-img-top").attr("src", image);
           currentEditCard.find(".card-title").text(name);
           currentEditCard.find(".card-text").text(role);
           currentEditCard.data("intro", intro);
+          currentEditCard.data("mbti", mbti);
+          currentEditCard.data("blog", blog);
+          currentEditCard.data("favorite", favorite);
           currentEditCard.data("github", github);
 
           $("#memberEditModal").modal("hide");
