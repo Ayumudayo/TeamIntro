@@ -178,6 +178,7 @@
                 </div>
                 <div class="modal-body">
                     <img id="info-modal-image" src="" class="img-fluid mb-3" alt="Member Image">
+                    <p id="info-modal-role"></p>
                     <p id="info-modal-intro"></p>
                     <p id="info-modal-github"></p>
                     <p id="info-modal-favorite"></p>
@@ -313,8 +314,6 @@
             const querySnapshot = await getDocs(collection(db, "meminfo"));
             querySnapshot.forEach((doc) => {
                 const member = doc.data();
-                console.log(member);
-                console.log(member.mbti);
                 let newCard = `
                     <div class="col">
                         <div class="card h-100" data-bs-toggle="modal" data-bs-target="#memberInfoModal" data-id="${doc.id}" data-intro="${member.intro}" data-github="${member.github}" data-favorite="${member.favorite}" data-mbti="${member.mbti}">
