@@ -1,322 +1,480 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>팀 멤버 소개</title>
     <!-- jQuery 라이브러리 추가 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Bootstrap CSS 추가 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
     <!-- Firebase 라이브러리 추가 -->
     <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap');
+      @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap");
 
-        /* 전체 폰트 설정 */
-        * {
-            font-family: "IBM Plex Sans KR", sans-serif;
-            font-weight: 400;
-            font-style: normal;
-        }
+      /* 전체 폰트 설정 */
+      * {
+        font-family: "IBM Plex Sans KR", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+      }
 
-        /* 배경색 설정 */
-        body {
-            background-color: #f5f5f5;
-        }
+      /* 배경색 설정 */
+      body {
+        background-color: #f5f5f5;
+      }
 
-        /* 메인 배경 이미지 설정 */
-        .main {
-            color: white;
-            background-image: url('https://images.unsplash.com/photo-1496389394391-c23f6d8a9954?ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80');
-            background-position: center;
-            background-size: cover;
-        }
+      /* 메인 배경 이미지 설정 */
+      .main {
+        color: white;
+        background-image: url("https://images.unsplash.com/photo-1496389394391-c23f6d8a9954?ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80");
+        background-position: center;
+        background-size: cover;
+      }
 
-        .main .container-fluid {
-            background-color: rgba(0, 0, 0, 0.6);
-            border-radius: 10px;
-        }
+      .main .container-fluid {
+        background-color: rgba(0, 0, 0, 0.6);
+        border-radius: 10px;
+      }
 
-        /* 멤버 추가 입력 폼 스타일 */
-        .mypostingbox {
-            width: 500px;
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            display: none;
-            background-color: #fff;
-        }
+      /* 멤버 추가 입력 폼 스타일 */
+      .mypostingbox {
+        width: 500px;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        display: none;
+        background-color: #fff;
+      }
 
-        .form-floating>input {
-            background-color: transparent;
-            color: black;
-        }
+      .form-floating > input {
+        background-color: transparent;
+        color: black;
+      }
 
-        .form-floating>label {
-            color: #555;
-        }
+      .form-floating > label {
+        color: #555;
+      }
 
-        .mybtn {
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-end;
-        }
+      .mybtn {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+      }
 
-        .mybtn>button {
-            margin-right: 5px;
-            width: 100%;
-        }
+      .mybtn > button {
+        margin-right: 5px;
+        width: 100%;
+      }
 
-        /* 카드 스타일 */
-        .mycards {
-            width: 90%;
-            margin: 20px auto;
-        }
+      /* 카드 스타일 */
+      .mycards {
+        width: 90%;
+        margin: 20px auto;
+      }
 
-        .card {
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+      .card {
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
 
-        .card-img-top {
-            width: 100%;
-            height: auto;
-            max-height: 700px;
-            object-fit: cover;
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
-        }
+      .card-img-top {
+        width: 100%;
+        height: auto;
+        max-height: 700px;
+        object-fit: cover;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+      }
 
-        /* 모달 스타일 */
-        .modal-content {
-            background-color: #fff;
-            color: black;
-            border-radius: 10px;
-        }
+      /* 모달 스타일 */
+      .modal-content {
+        background-color: #fff;
+        color: black;
+        border-radius: 10px;
+      }
 
-        .modal-header,
-        .modal-body,
-        .modal-footer {
-            border: none;
-        }
+      .modal-header,
+      .modal-body,
+      .modal-footer {
+        border: none;
+      }
 
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
+      .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+      }
 
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
+      .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+      }
 
-        .btn-outline-light {
-            color: #f8f9fa;
-            border-color: #f8f9fa;
-        }
+      .btn-outline-light {
+        color: #f8f9fa;
+        border-color: #f8f9fa;
+      }
 
-        .btn-outline-light:hover {
-            color: #212529;
-            background-color: #f8f9fa;
-            border-color: #f8f9fa;
-        }
+      .btn-outline-light:hover {
+        color: #212529;
+        background-color: #f8f9fa;
+        border-color: #f8f9fa;
+      }
 
-        .btn-danger {
-            background-color: #dc3545;
-            border-color: #dc3545;
-        }
+      .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+      }
 
-        .btn-danger:hover {
-            background-color: #c82333;
-            border-color: #bd2130;
-        }
+      .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <!-- 헤더 섹션 -->
     <header class="p-3 text-bg-dark">
-        <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
-                        <use xlink:href="#bootstrap"></use>
-                    </svg>
-                </a>
-                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="#" class="nav-link px-2 text-danger">Team Intro</a></li>
-                </ul>
-            </div>
+      <div class="container">
+        <div
+          class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
+        >
+          <a
+            href="/"
+            class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none"
+          >
+            <svg
+              class="bi me-2"
+              width="40"
+              height="32"
+              role="img"
+              aria-label="Bootstrap"
+            >
+              <use xlink:href="#bootstrap"></use>
+            </svg>
+          </a>
+          <ul
+            class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
+          >
+            <li>
+              <a href="#" class="nav-link px-2 text-danger">Team Intro</a>
+            </li>
+          </ul>
         </div>
+      </div>
     </header>
 
     <!-- 메인 섹션 -->
     <div class="main">
-        <div class="p-5 mb-4 bg-body-tertiary rounded-3">
-            <div class="container-fluid py-5">
-                <h1 class="display-5 fw-bold">팀 멤버 소개</h1>
-                <p class="col-md-8 fs-4">팀의 멤버들을 소개합니다. 멤버의 상세 정보를 확인하고 수정할 수 있습니다.</p>
-                <button id="addbtn" class="btn btn-outline-light" type="button">멤버 추가하기</button>
-            </div>
+      <div class="p-5 mb-4 bg-body-tertiary rounded-3">
+        <div class="container-fluid py-5">
+          <h1 class="display-5 fw-bold">팀 멤버 소개</h1>
+          <p class="col-md-8 fs-4">
+            팀의 멤버들을 소개합니다. 멤버의 상세 정보를 확인하고 수정할 수
+            있습니다.
+          </p>
+          <button id="addbtn" class="btn btn-outline-light" type="button">
+            멤버 추가하기
+          </button>
         </div>
+      </div>
     </div>
 
     <!-- 멤버 정보 모달 -->
-    <div class="modal fade" id="memberInfoModal" tabindex="-1" aria-labelledby="memberInfoModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="memberInfoModalLabel">멤버 이름</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <img id="info-modal-image" src="" class="img-fluid mb-3" alt="Member Image">
-                    <p id="info-modal-role"></p>
-                    <p id="info-modal-intro"></p>
-                    <p id="info-modal-github"></p>
-                    <p id="info-modal-favorite"></p>
-                    <p id="info-modal-mbti"></p>
-                </div>
-                <div class="modal-footer">
-                    <button id="delbtn" type="button" class="btn btn-primary">삭제</button>
-                    <button id="editbtn" type="button" class="btn btn-primary">수정</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
+    <div
+      class="modal fade"
+      id="memberInfoModal"
+      tabindex="-1"
+      aria-labelledby="memberInfoModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="memberInfoModalLabel">멤버 이름</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <img
+              id="info-modal-image"
+              src=""
+              class="img-fluid mb-3"
+              alt="Member Image"
+            />
+            <p id="info-modal-role"></p>
+            <p id="info-modal-intro"></p>
+            <p id="info-modal-github"></p>
+            <p id="info-modal-favorite"></p>
+            <p id="info-modal-mbti"></p>
+            <p id="info-modal-blog"></p>
+          </div>
+          <div class="modal-footer">
+            <button id="delbtn" type="button" class="btn btn-primary">
+              삭제
+            </button>
+            <button id="editbtn" type="button" class="btn btn-primary">
+              수정
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- 멤버 수정 모달 -->
-    <div class="modal fade" id="memberEditModal" tabindex="-1" aria-labelledby="memberEditModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="memberEditModalLabel">멤버 수정</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-floating mb-3">
-                        <input type="text" id="modal-image-input" class="form-control" placeholder="멤버 이미지 URL">
-                        <label for="modal-image-input">멤버 이미지 URL</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="text" id="modal-name-input" class="form-control" placeholder="멤버 이름">
-                        <label for="modal-name-input">멤버 이름</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="text" id="modal-role-input" class="form-control" placeholder="멤버 직책">
-                        <label for="modal-role-input">멤버 직책</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="text" id="modal-intro-input" class="form-control" placeholder="소개">
-                        <label for="modal-intro-input">소개</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="text" id="modal-github-input" class="form-control" placeholder="깃허브 URL">
-                        <label for="modal-github-input">깃허브 URL</label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button id="save-modal-btn" type="button" class="btn btn-primary">저장</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
+    <div
+      class="modal fade"
+      id="memberEditModal"
+      tabindex="-1"
+      aria-labelledby="memberEditModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="memberEditModalLabel">멤버 수정</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                id="modal-image-input"
+                class="form-control"
+                placeholder="멤버 이미지 URL"
+              />
+              <label for="modal-image-input">멤버 이미지 URL</label>
             </div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                id="modal-name-input"
+                class="form-control"
+                placeholder="멤버 이름"
+              />
+              <label for="modal-name-input">멤버 이름</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="modal-mbti-input"
+                placeholder="MBTI"
+              />
+              <label for="modal-mbti-input">MBTI</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="modal-favorite-input"
+                placeholder="좋아하는것"
+              />
+              <label for="modal-favorite-input">좋아하는것</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="modal-blog-input"
+                placeholder="blog"
+              />
+              <label for="modal-blog-input">블로그</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                id="modal-role-input"
+                class="form-control"
+                placeholder="멤버 직책"
+              />
+              <label for="modal-role-input">멤버 직책</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                id="modal-intro-input"
+                class="form-control"
+                placeholder="소개"
+              />
+              <label for="modal-intro-input">소개</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                id="modal-github-input"
+                class="form-control"
+                placeholder="깃허브 URL"
+              />
+              <label for="modal-github-input">깃허브 URL</label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button id="save-modal-btn" type="button" class="btn btn-primary">
+              저장
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- 멤버 추가 입력 폼 -->
     <div class="mypostingbox" id="postingbox">
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="image" placeholder="멤버 이미지 URL">
-            <label for="image">멤버 이미지 URL</label>
-        </div>
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="name" placeholder="멤버 이름">
-            <label for="name">멤버 이름</label>
-        </div>
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="role" placeholder="멤버 직책">
-            <label for="role">멤버 직책</label>
-        </div>
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="intro" placeholder="소개">
-            <label for="intro">소개</label>
-        </div>
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="github" placeholder="깃허브 URL">
-            <label for="github">깃허브 URL</label>
-        </div>
-        <div class="mybtn">
-            <button id="savebtn" type="button" class="btn btn-danger">저장</button>
-        </div>
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          class="form-control"
+          id="image"
+          placeholder="멤버 이미지 URL"
+        />
+        <label for="image">멤버 이미지 URL</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          placeholder="멤버 이름"
+        />
+        <label for="name">멤버 이름</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          class="form-control"
+          id="role"
+          placeholder="멤버 직책"
+        />
+        <label for="role">멤버 직책</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="mbti" placeholder="MBTI" />
+        <label for="mbti">MBTI</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          class="form-control"
+          id="favorite"
+          placeholder="좋아하는것"
+        />
+        <label for="favorite">좋아하는것</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          class="form-control"
+          id="blog"
+          placeholder="블로그"
+        />
+        <label for="blog">블로그</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="intro" placeholder="소개" />
+        <label for="intro">소개</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          class="form-control"
+          id="github"
+          placeholder="깃허브 URL"
+        />
+        <label for="github">깃허브 URL</label>
+      </div>
+      <div class="mybtn">
+        <button id="savebtn" type="button" class="btn btn-danger">저장</button>
+      </div>
     </div>
 
     <!-- 멤버 카드 섹션 -->
     <div class="mycards">
-        <div id="card" class="row row-cols-1 row-cols-md-4 g-4">
-            <!-- 예시 카드 / 나중에 지워야 함 -->
-            <div class="col" id='memcard'>
-                <div class="card h-100" data-bs-toggle="modal" data-bs-target="#memberInfoModal">
-                    <img src="https://via.placeholder.com/150" class="card-img-top" alt="멤버 이미지">
-                    <div class="card-body">
-                        <h5 class="card-title">홍길동</h5>
-                        <p class="card-text">개발자</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100" data-bs-toggle="modal" data-bs-target="#memberInfoModal">
-                    <img src="https://via.placeholder.com/150" class="card-img-top" alt="멤버 이미지">
-                    <div class="card-body">
-                        <h5 class="card-title">김철수</h5>
-                        <p class="card-text">디자이너</p>
-                    </div>
-                </div>
-            </div>
-            <!-- 여기에 더 많은 카드 추가 가능 -->
-        </div>
+      <div id="card" class="row row-cols-1 row-cols-md-4 g-4">
+        <!-- 예시 카드 / 나중에 지워야 함 -->
+
+        <!-- 여기에 더 많은 카드 추가 가능 -->
+      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Firebase 초기화 및 Firestore 사용을 위한 스크립트 -->
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, deleteDoc, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+      import {
+        getAuth,
+        signInWithPopup,
+        GoogleAuthProvider,
+        signOut,
+        onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+      import {
+        getFirestore,
+        collection,
+        addDoc,
+        getDocs,
+        deleteDoc,
+        updateDoc,
+        doc,
+      } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-        // Firebase 초기화
-        const firebaseConfig = {
-            apiKey: "AIzaSyCXLX8DF578yqOIPeU1DUgMzwz2tk8Uuyc",
-            authDomain: "teamintro-47489.firebaseapp.com",
-            projectId: "teamintro-47489",
-            storageBucket: "teamintro-47489.appspot.com",
-            messagingSenderId: "594224193568",
-            appId: "1:594224193568:web:5c6cac5fa042f1c1301c45",
-            measurementId: "G-YJZZJKH6K9"
-        };
+      // Firebase 초기화
+      const firebaseConfig = {
+        apiKey: "AIzaSyCXLX8DF578yqOIPeU1DUgMzwz2tk8Uuyc",
+        authDomain: "teamintro-47489.firebaseapp.com",
+        projectId: "teamintro-47489",
+        storageBucket: "teamintro-47489.appspot.com",
+        messagingSenderId: "594224193568",
+        appId: "1:594224193568:web:5c6cac5fa042f1c1301c45",
+        measurementId: "G-YJZZJKH6K9",
+      };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
 
-        const provider = new GoogleAuthProvider();
+      const provider = new GoogleAuthProvider();
 
-        // Firestore에서 멤버 정보를 가져와 카드 생성
-        $(document).ready(async function () {
-            const querySnapshot = await getDocs(collection(db, "meminfo"));
-            querySnapshot.forEach((doc) => {
-                const member = doc.data();
-                let newCard = `
+      // Firestore에서 멤버 정보를 가져와 카드 생성
+      $(document).ready(async function () {
+        const querySnapshot = await getDocs(collection(db, "meminfo"));
+        querySnapshot.forEach((doc) => {
+          const member = doc.data();
+          let newCard = `
                     <div class="col">
-                        <div class="card h-100" data-bs-toggle="modal" data-bs-target="#memberInfoModal" data-id="${doc.id}" data-intro="${member.intro}" data-github="${member.github}" data-favorite="${member.favorite}" data-mbti="${member.mbti}">
+                        <div class="card h-100" data-bs-toggle="modal" data-bs-target="#memberInfoModal" data-id="${doc.id}" data-intro="${member.intro}" data-github="${member.github}"data-blog="${member.blog}" data-favorite="${member.favorite}" data-mbti="${member.mbti}">
                             <img src="${member.image}" class="card-img-top" style="width: 100%; height: 300px; object-fit: cover;" alt="멤버 이미지">
                             <div class="card-body">
                                 <h5 class="card-title">${member.name}</h5>
@@ -325,139 +483,157 @@
                         </div>
                     </div>
                 `;
-                console.log(newCard);
-                $('#card').append(newCard);
-            });
+          console.log(newCard);
+          $("#card").append(newCard);
         });
+      });
 
-        let currentEditCard = null;
+      let currentEditCard = null;
 
-        // 멤버 정보 모달 표시 시 데이터 설정
-        $('#memberInfoModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            var card = button.closest('.card');
-            currentEditCard = card;
-            var image = card.find('.card-img-top').attr('src');
-            var name = card.find('.card-title').text();
-            var role = card.find('.card-text').text();
+      // 멤버 정보 모달 표시 시 데이터 설정
+      $("#memberInfoModal").on("show.bs.modal", function (event) {
+        var button = $(event.relatedTarget);
+        var card = button.closest(".card");
+        currentEditCard = card;
+        var image = card.find(".card-img-top").attr("src");
+        var name = card.find(".card-title").text();
+        var role = card.find(".card-text").text();
 
-            $('#memberInfoModalLabel').text(name);
-            $('#info-modal-image').attr('src', image);
-            $('#info-modal-role').text(`직책: ${role}`);
-            $('#info-modal-intro').text(`${card.data('intro')}`);
-            $('#info-modal-github').text(`깃허브 주소: ${card.data('github') || '아직 등록되지 않았습니다.'}`);
-            $('#info-modal-favorite').text(`좋아하는 것: ${card.data('favorite') || '아직 등록되지 않았습니다.'}`);
-            $('#info-modal-mbti').text(`MBTI: ${card.data('mbti') || '아직 등록되지 않았습니다.'}`);
-        });
-
-        // 수정 버튼 클릭 시 수정 모달 표시
-        $('#editbtn').click(function () {
-            $('#memberInfoModal').modal('hide');
-            var card = currentEditCard;
-            var image = card.find('.card-img-top').attr('src');
-            var name = card.find('.card-title').text();
-            var role = card.find('.card-text').text();
-            var intro = card.data('intro');
-            var github = card.data('github');
-
-            $('#modal-image-input').val(image);
-            $('#modal-name-input').val(name);
-            $('#modal-role-input').val(role);
-            $('#modal-intro-input').val(intro);
-            $('#modal-github-input').val(github);
-
-            $('#memberEditModal').modal('show');
-        });
-
-        // 멤버 추가 버튼 클릭 시 입력 폼 표시
-        $('#addbtn').click(function () {
-            $('#postingbox').toggle();
-        }
+        $("#memberInfoModalLabel").text(name);
+        $("#info-modal-image").attr("src", image);
+        $("#info-modal-role").text(`직책: ${role}`);
+        $("#info-modal-intro").text(`${card.data("intro")}`);
+        $("#info-modal-github").text(
+          `깃허브 주소: ${card.data("github") || "아직 등록되지 않았습니다."}`
         );
+        $("#info-modal-favorite").text(
+          `좋아하는 것: ${card.data("favorite") || "아직 등록되지 않았습니다."}`
+        );
+        $("#info-modal-mbti").text(
+          `MBTI: ${card.data("mbti") || "아직 등록되지 않았습니다."}`
+        );
+        $("#info-modal-blog").text(
+          `blog: ${card.data("blog") || "아직 등록되지 않았습니다."}`
+        );
+      });
 
-        // 멤버 추가 저장 버튼 클릭 시 Firestore에 저장
-        $('#savebtn').click(async function () {
-            try {
-                let image = $('#image').val();
-                let name = $('#name').val();
-                let role = $('#role').val();
-                let intro = $('#intro').val();
-                let github = $('#github').val();
+      // 수정 버튼 클릭 시 수정 모달 표시
+      $("#editbtn").click(function () {
+        $("#memberInfoModal").modal("hide");
+        var card = currentEditCard;
+        var image = card.find(".card-img-top").attr("src");
+        var name = card.find(".card-title").text();
+        var role = card.find(".card-text").text();
+        var intro = card.data("intro");
+        var github = card.data("github");
 
-                let doc = {
-                    'image': image,
-                    'name': name,
-                    'role': role,
-                    'intro': intro,
-                    'github': github
-                };
-                await addDoc(collection(db, "meminfo"), doc);
-                alert('저장 완료');
-                window.location.reload();
-            } catch (error) {
-                console.error("저장 실패:", error);
-                alert('저장 실패');
-            }
-        });
+        $("#modal-image-input").val(image);
+        $("#modal-name-input").val(name);
+        $("#modal-role-input").val(role);
+        $("#modal-intro-input").val(intro);
+        $("#modal-github-input").val(github);
 
-        // 멤버 수정 모달 저장 버튼 클릭 시 Firestore 업데이트
-        $('#save-modal-btn').click(async function () {
-            try {
-                let id = currentEditCard.data('id');
-                let image = $('#modal-image-input').val();
-                let name = $('#modal-name-input').val();
-                let role = $('#modal-role-input').val();
-                let intro = $('#modal-intro-input').val();
-                let github = $('#modal-github-input').val();
+        $("#memberEditModal").modal("show");
+      });
 
-                let docRef = doc(db, "meminfo", id);
-                await updateDoc(docRef, {
-                    image: image,
-                    name: name,
-                    role: role,
-                    intro: intro,
-                    github: github
-                });
+      // 멤버 추가 버튼 클릭 시 입력 폼 표시
+      $("#addbtn").click(function () {
+        $("#postingbox").toggle();
+      });
 
-                currentEditCard.find('.card-img-top').attr('src', image);
-                currentEditCard.find('.card-title').text(name);
-                currentEditCard.find('.card-text').text(role);
-                currentEditCard.data('intro', intro);
-                currentEditCard.data('github', github);
+      // 멤버 추가 저장 버튼 클릭 시 Firestore에 저장
+      $("#savebtn").click(async function () {
+        try {
+          let image = $("#image").val();
+          let name = $("#name").val();
+          let role = $("#role").val();
+          let intro = $("#intro").val();
+          let github = $("#github").val();
+          let favorite = $("#favorite").val();
+          let blog = $("#blog").val();
+          let mbti = $("#mbti").val();
 
-                $('#memberEditModal').modal('hide');
-                alert('수정 완료');
-            } catch (error) {
-                console.error("수정 실패:", error);
-                alert('수정 실패');
-            }
-        });
-        // 삭제하기 
-        $("#delbtn").click(async function () {
-            
-            if (confirm('삭제하시겠습니까?') == true) {
-                const id = currentEditCard.data('id');  // 현재 카드의 ID 가져오기
+          let doc = {
+            image: image,
+            name: name,
+            role: role,
+            intro: intro,
+            mbti: mbti,
+            blog: blog,
+            favorite: favorite,
+            github: github,
+          };
+          await addDoc(collection(db, "meminfo"), doc);
+          alert("저장 완료");
+          window.location.reload();
+        } catch (error) {
+          console.error("저장 실패:", error);
+          alert("저장 실패");
+        }
+      });
 
-                try {
-                    // 파이어베이스에서 데이터 삭제
-                    await deleteDoc(doc(db, "meminfo", id));
-                    
-                    // 웹에서 카드 제거 (CSS 별명 넣기)
-                    currentEditCard.closest('.col').remove(); 
-                    $('#memberInfoModal').modal('hide');
-                    alert('삭제 완료!');
-                    
-                } catch (error) {
-                    console.error("Error removing document: ", error);
-                    alert('삭제 실패');
-                }
-            } else {
-                alert('취소하였습니다.');
-            }
-            
-        });
+      // 멤버 수정 모달 저장 버튼 클릭 시 Firestore 업데이트
+      $("#save-modal-btn").click(async function () {
+        try {
+          let id = currentEditCard.data("id");
+          let image = $("#modal-image-input").val();
+          let name = $("#modal-name-input").val();
+          let role = $("#modal-role-input").val();
+          let intro = $("#modal-intro-input").val();
+          let github = $("#modal-github-input").val();
+          let favorite = $("#modal-favorite-input").val();
+          let blog = $("#modal-blog-input").val();
+          let mbti = $("#modal-mbti-input").val();
+
+          let docRef = doc(db, "meminfo", id);
+          await updateDoc(docRef, {
+            image: image,
+            name: name,
+            role: role,
+            intro: intro,
+            github: github,
+            mbti: mbti,
+            favorite: favorite,
+            blog: blog,
+          });
+
+          currentEditCard.find(".card-img-top").attr("src", image);
+          currentEditCard.find(".card-title").text(name);
+          currentEditCard.find(".card-text").text(role);
+          currentEditCard.data("intro", intro);
+          currentEditCard.data("mbti", mbti);
+          currentEditCard.data("blog", blog);
+          currentEditCard.data("favorite", favorite);
+          currentEditCard.data("github", github);
+
+          $("#memberEditModal").modal("hide");
+          alert("수정 완료");
+        } catch (error) {
+          console.error("수정 실패:", error);
+          alert("수정 실패");
+        }
+      });
+      // 삭제하기
+      $("#delbtn").click(async function () {
+        if (confirm("삭제하시겠습니까?") == true) {
+          const id = currentEditCard.data("id"); // 현재 카드의 ID 가져오기
+
+          try {
+            // 파이어베이스에서 데이터 삭제
+            await deleteDoc(doc(db, "meminfo", id));
+
+            // 웹에서 카드 제거 (CSS 별명 넣기)
+            currentEditCard.closest(".col").remove();
+            $("#memberInfoModal").modal("hide");
+            alert("삭제 완료!");
+          } catch (error) {
+            console.error("Error removing document: ", error);
+            alert("삭제 실패");
+          }
+        } else {
+          alert("취소하였습니다.");
+        }
+      });
     </script>
-
-</body>
-
+  </body>
 </html>
