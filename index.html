@@ -152,10 +152,6 @@
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                     <li><a href="#" class="nav-link px-2 text-danger">Team Intro</a></li>
                 </ul>
-                <div class="text-end">
-                    <button id="login-btn" class="btn btn-outline-light me-2">Google 로그인</button>
-                    <button id="logout-btn" class="btn btn-outline-light me-2" style="display: none;">로그아웃</button>
-                </div>
             </div>
         </div>
     </header>
@@ -172,7 +168,8 @@
     </div>
 
     <!-- 멤버 정보 모달 -->
-    <div class="modal fade" id="memberInfoModal" tabindex="-1" aria-labelledby="memberInfoModalLabel" aria-hidden="true">
+    <div class="modal fade" id="memberInfoModal" tabindex="-1" aria-labelledby="memberInfoModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -193,7 +190,8 @@
     </div>
 
     <!-- 멤버 수정 모달 -->
-    <div class="modal fade" id="memberEditModal" tabindex="-1" aria-labelledby="memberEditModalLabel" aria-hidden="true">
+    <div class="modal fade" id="memberEditModal" tabindex="-1" aria-labelledby="memberEditModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -289,7 +287,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
-    
+
         // Firebase 초기화
         const firebaseConfig = {
             apiKey: "AIzaSyCXLX8DF578yqOIPeU1DUgMzwz2tk8Uuyc",
@@ -300,59 +298,15 @@
             appId: "1:594224193568:web:5c6cac5fa042f1c1301c45",
             measurementId: "G-YJZZJKH6K9"
         };
-    
+
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-    
+
         const provider = new GoogleAuthProvider();
-    
-        let currentUser = null;
-    
-        // 인증 상태 변경 처리
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                currentUser = user;
-                console.log("사용자 인증됨:", user);
-                $('#login-btn').hide();
-                $('#logout-btn').show();
-            } else {
-                currentUser = null;
-                console.log("사용자 인증되지 않음");
-                $('#login-btn').show();
-                $('#logout-btn').hide();
-            }
-        });
-    
-        // 로그인 버튼 이벤트 핸들러
-        $('#login-btn').click(async function() {
-            try {
-                const result = await signInWithPopup(auth, provider);
-                const user = result.user;
-                console.log("로그인 성공:", user);
-                currentUser = user;
-                $('#login-btn').hide();
-                $('#logout-btn').show();
-            } catch (error) {
-                console.error("로그인 실패:", error);
-            }
-        });
-    
-        // 로그아웃 버튼 이벤트 핸들러
-        $('#logout-btn').click(async function() {
-            try {
-                await signOut(auth);
-                console.log("로그아웃 성공");
-                currentUser = null;
-                $('#login-btn').show();
-                $('#logout-btn').hide();
-            } catch (error) {
-                console.error("로그아웃 실패:", error);
-            }
-        });
-    
+
         // Firestore에서 멤버 정보를 가져와 카드 생성
-        $(document).ready(async function() {
+        $(document).ready(async function () {
             const querySnapshot = await getDocs(collection(db, "meminfo"));
             querySnapshot.forEach((doc) => {
                 const member = doc.data();
@@ -370,124 +324,109 @@
                 $('#card').append(newCard);
             });
         });
-    
+
         let currentEditCard = null;
-    
+
         // 멤버 정보 모달 표시 시 데이터 설정
-        $('#memberInfoModal').on('show.bs.modal', function(event) {
+        $('#memberInfoModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var card = button.closest('.card');
             currentEditCard = card;
             var image = card.find('.card-img-top').attr('src');
             var name = card.find('.card-title').text();
             var role = card.find('.card-text').text();
-    
+
             $('#memberInfoModalLabel').text(name);
             $('#info-modal-image').attr('src', image);
             $('#info-modal-intro').text(`직책: ${role}`);
             $('#info-modal-intro').text(`${card.data('intro')}`);
             $('#info-modal-github').text(`깃허브 주소: ${card.data('github') || '아직 등록되지 않았습니다.'}`);
         });
-    
+
         // 수정 버튼 클릭 시 수정 모달 표시
-        $('#editbtn').click(function() {
-            if (currentUser) {
-                $('#memberInfoModal').modal('hide');
-                var card = currentEditCard;
-                var image = card.find('.card-img-top').attr('src');
-                var name = card.find('.card-title').text();
-                var role = card.find('.card-text').text();
-                var intro = card.data('intro');
-                var github = card.data('github');
-    
-                $('#modal-image-input').val(image);
-                $('#modal-name-input').val(name);
-                $('#modal-role-input').val(role);
-                $('#modal-intro-input').val(intro);
-                $('#modal-github-input').val(github);
-    
-                $('#memberEditModal').modal('show');
-            } else {
-                alert("수정을 위해서는 로그인이 필요합니다.");
-            }
+        $('#editbtn').click(function () {
+            $('#memberInfoModal').modal('hide');
+            var card = currentEditCard;
+            var image = card.find('.card-img-top').attr('src');
+            var name = card.find('.card-title').text();
+            var role = card.find('.card-text').text();
+            var intro = card.data('intro');
+            var github = card.data('github');
+
+            $('#modal-image-input').val(image);
+            $('#modal-name-input').val(name);
+            $('#modal-role-input').val(role);
+            $('#modal-intro-input').val(intro);
+            $('#modal-github-input').val(github);
+
+            $('#memberEditModal').modal('show');
         });
-    
+
         // 멤버 추가 버튼 클릭 시 입력 폼 표시
-        $('#addbtn').click(function() {
-            if (currentUser) {
-                $('#postingbox').toggle();
-            } else {
-                alert("멤버 추가를 위해서는 로그인이 필요합니다.");
-            }
-        });
-    
+        $('#addbtn').click(function () {
+            $('#postingbox').toggle();
+        }
+        );
+
         // 멤버 추가 저장 버튼 클릭 시 Firestore에 저장
-        $('#savebtn').click(async function() {
-            if (currentUser) {
-                try {
-                    let image = $('#image').val();
-                    let name = $('#name').val();
-                    let role = $('#role').val();
-                    let intro = $('#intro').val();
-                    let github = $('#github').val();
-    
-                    let doc = {
-                        'image': image,
-                        'name': name,
-                        'role': role,
-                        'intro': intro,
-                        'github': github
-                    };
-                    await addDoc(collection(db, "meminfo"), doc);
-                    alert('저장 완료');
-                    window.location.reload();
-                } catch (error) {
-                    console.error("저장 실패:", error);
-                    alert('저장 실패');
-                }
-            } else {
-                alert("저장을 위해서는 로그인이 필요합니다.");
+        $('#savebtn').click(async function () {
+            try {
+                let image = $('#image').val();
+                let name = $('#name').val();
+                let role = $('#role').val();
+                let intro = $('#intro').val();
+                let github = $('#github').val();
+
+                let doc = {
+                    'image': image,
+                    'name': name,
+                    'role': role,
+                    'intro': intro,
+                    'github': github
+                };
+                await addDoc(collection(db, "meminfo"), doc);
+                alert('저장 완료');
+                window.location.reload();
+            } catch (error) {
+                console.error("저장 실패:", error);
+                alert('저장 실패');
             }
         });
-    
+
         // 멤버 수정 모달 저장 버튼 클릭 시 Firestore 업데이트
-        $('#save-modal-btn').click(async function() {
-            if (currentUser) {
-                try {
-                    let id = currentEditCard.data('id');
-                    let image = $('#modal-image-input').val();
-                    let name = $('#modal-name-input').val();
-                    let role = $('#modal-role-input').val();
-                    let intro = $('#modal-intro-input').val();
-                    let github = $('#modal-github-input').val();
-    
-                    let docRef = doc(db, "meminfo", id);
-                    await updateDoc(docRef, {
-                        image: image,
-                        name: name,
-                        role: role,
-                        intro: intro,
-                        github: github
-                    });
-    
-                    currentEditCard.find('.card-img-top').attr('src', image);
-                    currentEditCard.find('.card-title').text(name);
-                    currentEditCard.find('.card-text').text(role);
-                    currentEditCard.data('intro', intro);
-                    currentEditCard.data('github', github);
-    
-                    $('#memberEditModal').modal('hide');
-                    alert('수정 완료');
-                } catch (error) {
-                    console.error("수정 실패:", error);
-                    alert('수정 실패');
-                }
-            } else {
-                alert("수정을 위해서는 로그인이 필요합니다.");
+        $('#save-modal-btn').click(async function () {
+            try {
+                let id = currentEditCard.data('id');
+                let image = $('#modal-image-input').val();
+                let name = $('#modal-name-input').val();
+                let role = $('#modal-role-input').val();
+                let intro = $('#modal-intro-input').val();
+                let github = $('#modal-github-input').val();
+
+                let docRef = doc(db, "meminfo", id);
+                await updateDoc(docRef, {
+                    image: image,
+                    name: name,
+                    role: role,
+                    intro: intro,
+                    github: github
+                });
+
+                currentEditCard.find('.card-img-top').attr('src', image);
+                currentEditCard.find('.card-title').text(name);
+                currentEditCard.find('.card-text').text(role);
+                currentEditCard.data('intro', intro);
+                currentEditCard.data('github', github);
+
+                $('#memberEditModal').modal('hide');
+                alert('수정 완료');
+            } catch (error) {
+                console.error("수정 실패:", error);
+                alert('수정 실패');
             }
         });
     </script>
-    
+
 </body>
 
 </html>
