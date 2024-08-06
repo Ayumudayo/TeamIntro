@@ -284,28 +284,28 @@
               <input
                 type="text"
                 class="form-control"
-                id="name"
+                id="mymbti"
                 placeholder="mbti"
               />
-              <label for="name">mbti</label>
+              <label for="modal-mbti-input">MBTI</label>
             </div>
             <div class="form-floating mb-3">
               <input
                 type="text"
                 class="form-control"
-                id="name"
+                id="myfavorite"
                 placeholder="favorite"
               />
-              <label for="name">favorite</label>
+              <label for="modal-favorite-input">좋아하는것</label>
             </div>
             <div class="form-floating mb-3">
               <input
                 type="text"
                 class="form-control"
-                id="name"
+                id="myblog"
                 placeholder="blog"
               />
-              <label for="name">blog</label>
+              <label for="modal-blog-input">블로그</label>
             </div>
             <div class="form-floating mb-3">
               <input
@@ -544,12 +544,18 @@
           let role = $("#role").val();
           let intro = $("#intro").val();
           let github = $("#github").val();
+          let favorite = $("#favorite").val();
+          let blog = $("#blog").val();
+          let mbti = $("#mbti").val();
 
           let doc = {
             image: image,
             name: name,
             role: role,
             intro: intro,
+            mbti: mbti,
+            blog: blog,
+            favorite: favorite,
             github: github,
           };
           await addDoc(collection(db, "meminfo"), doc);
