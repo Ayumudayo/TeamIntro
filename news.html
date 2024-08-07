@@ -34,20 +34,68 @@
             background-color: transparent;
             background-image: url("image/banner.jpg");
             background-size: cover;
-        }        
+        }
 
         h1 {
             text-align: center;
             color: white
         }
 
-        .result-item {
-            border: 1px solid #ccc;
-            padding: 16px;
-            margin: 1rem 2rem 1rem 2rem;
+        .card {
+            margin-top: 30px;
+            background-color: transparent;
+
+            border-color: #ccc;
+            border-width: 1px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            background-color: rgba(255, 255, 255, 0.918);
+        }
+
+        .card-header{ 
+            background-color: #5385C1;
+            width: 100%;
+            height: 120%;
+
+           
+            color:rgb(255, 255, 255);
+            border-radius: 10px;
+            font-size: 140%;
+            
+            a{
+            text-decoration-line: none;
+            color: inherit;    
+            font-weight: bold;
+           }
+
+
+        }
+
+
+       
+        
+        a:hover {color : rgb(15, 15, 15);}
+
+
+        .card-body{
+            background-color:rgba(58, 56, 56, 0.5);
+            color:rgb(255, 255, 255);
+            
+
+            border-color: white;
+            
+           
+        }
+
+        .card-body>p {
+            font-size: 80%;
+            font-weight: bold;
+
+        }
+
+        .blockquote-footer{
+            margin-top: 10px;
+            font-size: 80%;
+            color: rgb(255, 255, 255);
+            
         }
 
         .results-wrapper {
@@ -65,7 +113,8 @@
             background-size: cover;
             background-attachment: fixed;
             background-repeat: no-repeat;
-            min-height: 30vh; /* 상단 부분 높이 줄이기 */
+            min-height: 30vh;
+            /* 상단 부분 높이 줄이기 */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -146,10 +195,18 @@
                 const resultItem = document.createElement('div');
                 resultItem.className = 'result-item';
                 resultItem.innerHTML = `
-                    <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
-                    <h4><strong>게시 시간:</strong> ${formatDate(item.pubDate)}</h4>
-                    <p>${item.description}</p>
-                `;
+                <div class="card">
+                <div class="card-header">
+                <a href="${item.link}" target="_blank">${item.title}</a class="title"> </div>
+                <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                <p>${item.description}</p>
+                <footer class="blockquote-footer"><strong>게시 시간:</strong> ${formatDate(item.pubDate)}<cite title="Source Title"></cite></footer>
+                </blockquote>
+                </div>
+                </div>`;
+                
+  
                 resultsDiv.appendChild(resultItem);
             });
         }
