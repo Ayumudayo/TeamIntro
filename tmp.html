@@ -28,15 +28,25 @@
             const resultsDiv = document.getElementById('results');
             resultsDiv.innerHTML = '';
 
-            data.items.forEach(item => {
+            for (let i = 0; i <= 3; i++) {
+                const item = data.items[i];
                 const resultItem = document.createElement('div');
-                resultItem.innerHTML = `
-                    <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
-                    <p>${item.description}</p>
-                `;
+                resultItem.innerHTML =
+                    `<div class="col">
+                 <div class="card h-100">
+                 <div class="card-body">
+                        <h3 class="card-title">${item.title}</h3>
+                        <p class="card-text">${item.link}</p>
+                        <p class="card-text">${item.description}</p>
+                        <p class="card-text">${item.pubDate}</p>
+                    </div>
+            </div>
+        </div>`;
+
                 resultsDiv.appendChild(resultItem);
-            });
+            }
         }
+        
 
         // 페이지 로드 시 API 호출
         window.onload = searchNews;
