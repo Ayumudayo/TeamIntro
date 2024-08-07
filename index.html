@@ -471,28 +471,43 @@
 
         const provider = new GoogleAuthProvider();
 
-        // Firestore에서 멤버 정보를 가져와 카드 생성
         $(document).ready(async function () {
-            const querySnapshot = await getDocs(collection(db, "meminfo"));
-            querySnapshot.forEach((doc) => {
-                const member = doc.data();
-                let newCard = `
-                    <div class="col">
-                        <div class="card h-100" data-bs-toggle="modal" data-bs-target="#memberInfoModal" data-id="${doc.id}" data-intro="${member.intro}" data-github="${member.github}"data-blog="${member.blog}" data-favorite="${member.favorite}" data-mbti="${member.mbti}">
-                            <div class="card-img-wrapper">
-                                <img src="${member.image}" class="card-img-top" alt="멤버 이미지">
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">${member.name}</h5>
-                                <p class="card-text">${member.role}</p>
-                            </div>
-                        </div>
+    const querySnapshot = await getDocs(collection(db, "meminfo"));
+    let members = [];
+
+    // Firestore에서 데이터를 가져와 배열에 저장
+    querySnapshot.forEach((doc) => {
+        let member = doc.data();
+        member.id = doc.id; // id를 데이터에 포함
+        members.push(member);
+    });
+
+    // 팀장 먼저, 그 다음 이름 오름차순으로 정렬
+    members.sort((a, b) => {
+        if (a.role === "팀장" && b.role !== "팀장") return -1;
+        if (a.role !== "팀장" && b.role === "팀장") return 1;
+        return a.name.localeCompare(b.name, 'ko');
+    });
+
+    // 정렬된 데이터를 기반으로 카드 생성 및 배치
+    members.forEach((member) => {
+        let newCard = `
+            <div class="col">
+                <div class="card h-100" data-bs-toggle="modal" data-bs-target="#memberInfoModal" data-id="${member.id}" data-intro="${member.intro}" data-github="${member.github}" data-blog="${member.blog}" data-favorite="${member.favorite}" data-mbti="${member.mbti}">
+                    <div class="card-img-wrapper">
+                        <img src="${member.image}" class="card-img-top" alt="멤버 이미지">
                     </div>
-                `;
-                console.log(newCard);
-                $("#card").append(newCard);
-            });
-        });
+                    <div class="card-body">
+                        <h5 class="card-title">${member.name}</h5>
+                        <p class="card-text">${member.role}</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        console.log(newCard);
+        $("#card").append(newCard);
+    });
+});
 
         let currentEditCard = null;
 
