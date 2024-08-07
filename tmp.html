@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Naver News Search API Example</title>
 </head>
+<style>
+    .col {
+        background-color: green;
+    }
+</style>
+
 <body>
     <h1>Naver News Search API Example</h1>
     <div id="results"></div>
@@ -18,9 +25,9 @@
             const url = `http://1.251.32.227:3000/search?query=${encodeURIComponent(query)}`;
 
             fetch(url)
-            .then(response => response.json())
-            .then(data => displayResults(data))
-            .catch(error => console.error('Error:', error));
+                .then(response => response.json())
+                .then(data => displayResults(data))
+                .catch(error => console.error('Error:', error));
         }
 
         // 결과를 화면에 표시하는 함수
@@ -28,18 +35,31 @@
             const resultsDiv = document.getElementById('results');
             resultsDiv.innerHTML = '';
 
-            data.items.forEach(item => {
+            for (let i = 0; i <= 3; i++) {
+                const item = data.items[i];
                 const resultItem = document.createElement('div');
-                resultItem.innerHTML = `
-                    <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
-                    <p>${item.description}</p>
-                `;
+                resultItem.innerHTML =
+                    `<div class="col">
+                 <div class="card h-100">
+                 <div class="card-body">
+                        <h3 class="card-title">${item.title}</h3>
+                        <p class="card-text">${item.link}</p>
+                        <p class="card-text">${item.description}</p>
+                        <p class="card-text">${item.pubDate}</p>
+                    </div>
+            </div>
+        </div>`;
+                
                 resultsDiv.appendChild(resultItem);
-            });
+            }
         }
+
+
+
 
         // 페이지 로드 시 API 호출
         window.onload = searchNews;
     </script>
 </body>
+
 </html>
