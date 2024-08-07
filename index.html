@@ -39,7 +39,8 @@
             background: rgba(0, 0, 0, 0.0);
             /* 투명한 배경 */
             z-index: 100;
-            padding-top: 5vh;
+            padding-top: 5vh, 0, 0, 0,;
+            margin: 5vh, 0, 0, 0;
         }
 
         header .nav-link {
@@ -114,17 +115,30 @@
             margin: 20px auto;
         }
 
+        /* 카드 래퍼 스타일 */
+        .mycards-wrapper {
+            padding: 2rem 5rem 5rem 5rem;
+            background-color: rgba(255, 255, 255, 0.0);
+            border-radius: 10px;
+        }
+
+        .card-section-text {
+            padding: 1rem 10rem 1rem 10rem;
+            color: white;
+        }
+
         /* 카드 스타일 수정 */
         .card {
+            width: 80%;
+            height: 80%;
             border-radius: 10px;
-            border-color: rgba(223, 223, 223, 0.5);
+            border-color: rgba(190, 190, 190, 0.5);
             background-color: transparent;
             /* 카드 배경색 */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.0);
             transition: transform 0.2s ease-in-out;
-            margin: 3rem;
+            margin: 1rem;
             /* 카드 간 간격 */
-            padding: 5rem;
+            padding: 2rem;
             text-align: center;
         }
 
@@ -245,7 +259,7 @@
                 </a>
                 <ul class="nav col-12 col-lg-auto mb-2 justify-content-start mb-md-0">
                     <li>
-                        <a href="index.html" class="nav-link px-2 text-danger">Team Intro</a>
+                        <a href="index.html" class="nav-link px-2 text-danger">서버취업존버단</a>
                     </li>
                 </ul>
                 <ul class="nav col-12 col-lg-auto mb-2 justify-content-end mb-md-0 ms-auto">
@@ -405,11 +419,17 @@
     </div>
 
     <!-- 멤버 카드 섹션 -->
-    <div class="mycards">
-        <div id="card" class="row row-cols-1 row-cols-md-4 g-4">
-            <!-- 예시 카드 / 나중에 지워야 함 -->
-
-            <!-- 여기에 더 많은 카드 추가 가능 -->
+    <div class="mycards-wrapper">
+        <div class="card-section-text">
+                <h2>우리 팀의 멤버들</h3>
+                <p>카드를 클릭하면 정보를 볼 수 있습니다</p>
+        </div>
+        <div class="mycards">
+            <div id="card" class="row row-cols-1 row-cols-md-4 g-4">
+                <!-- 예시 카드 / 나중에 지워야 함 -->
+    
+                <!-- 여기에 더 많은 카드 추가 가능 -->
+            </div>
         </div>
     </div>
 
