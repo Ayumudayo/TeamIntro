@@ -1,45 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Naver News Search API Example</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Naver News Search API Example</h1>
     <div id="results"></div>
 
     <script>
-        // 검색할 키워드 설정
-        const query = '스파르타 코딩클럽';
+      // 검색할 키워드 설정
+      const query = "스파르타 코딩클럽";
 
-        // API 호출 함수
-        function searchNews() {
-            const url = `http://1.251.32.227:3000/search?query=${encodeURIComponent(query)}`;
+      // API 호출 함수
+      function searchNews() {
+        const url = `http://1.251.32.227:3000/search?query=${encodeURIComponent(
+          query
+        )}`;
 
-            fetch(url)
-            .then(response => response.json())
-            .then(data => displayResults(data))
-            .catch(error => console.error('Error:', error));
-        }
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => displayResults(data))
+          .catch((error) => console.error("Error:", error));
+      }
 
-        // 결과를 화면에 표시하는 함수
-        function displayResults(data) {
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = '';
+      // 결과를 화면에 표시하는 함수
+      function displayResults(data) {
+        const resultsDiv = document.getElementById("results");
+        resultsDiv.innerHTML = "";
 
-            data.items.forEach(item => {
-                const resultItem = document.createElement('div');
-                resultItem.innerHTML = `
-                    <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
-                    <p>${item.description}</p>
-                `;
-                resultsDiv.appendChild(resultItem);
-            });
-        }
+        //최신 뉴스 날짜 순으로 정렬
+        const sorted = data.items.sort(
+          (a, b) => new Date(b.pubDate) - new Date(a.pubDate)
+        );
+        const ordernews = sorted[0];
+        sorted.forEach((item) => {
+          //UTC로 해석
+          const publishedTime = new Date(item.pubDate);
 
-        // 페이지 로드 시 API 호출
-        window.onload = searchNews;
+          // 원하는 형식으로 포맷팅
+          const options = {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            timeZone: "Asia/Seoul", // 원하는 타임존 설정
+          };
+
+          const formattedTime = publishedTime.toLocaleString("ko-KR", options);
+
+          const resultItem = document.createElement("div");
+          resultItem.innerHTML = `
+            <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
+            <p>${item.description}</p>
+            <p><small>Published on: ${formattedTime}</small></p>
+          `;
+          resultsDiv.appendChild(resultItem);
+        });
+      }
+
+      // 페이지 로드 시 API 호출
+      window.onload = searchNews;
     </script>
-</body>
+  </body>
 </html>
