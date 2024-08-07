@@ -194,9 +194,36 @@
         }
 
         .modal-header,
-        .modal-body,
         .modal-footer {
             border: none;
+        }
+
+        .modal-body .text-left {
+            text-align: left;
+        }
+
+        .modal-footer .link-container {
+            text-align: left;
+        }
+
+        .modal-footer .link-list {
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .modal-footer .col-md-8 {
+            display: flex;
+            align-items: center;
+        }
+
+        .modal-footer .col-md-4 {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .modal-footer .btn {
+            margin-right: 5px; /* 버튼 간격 조정 */
         }
 
         .link-container {
@@ -327,32 +354,43 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <img id="info-modal-image" src="" class="img-fluid mb-3" alt="Member Image" />
-                    <p id="info-modal-role"></p>
-                    <p id="info-modal-intro"></p>
-                    <p id="info-modal-mbti"></p>
-                    <p id="info-modal-favorite"></p>
-                </div>
-                <div class="link-container">
-                    <ul class="link-list">
-                        <li><a id="info-modal-github" href="" target="_blank">GitHub</a></li>
-                        <li><a id="info-modal-blog" href="" target="_blank">Blog</a></li>
-                    </ul>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-8 text-left">
+                                <p><strong>직책:</strong> <span id="info-modal-role"></span></p>
+                                <p><strong>소개:</strong> <span id="info-modal-intro"></span></p>
+                                <p><strong>MBTI:</strong> <span id="info-modal-mbti"></span></p>
+                                <p><strong>좋아하는 것:</strong> <span id="info-modal-favorite"></span></p>
+                            </div>
+                            <div class="col-md-4">
+                                <img id="info-modal-image" src="" class="img-fluid mb-3" alt="Member Image" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="delbtn" type="button" class="btn btn-primary">
-                        삭제
-                    </button>
-                    <button id="editbtn" type="button" class="btn btn-primary">
-                        수정
-                    </button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Close
-                    </button>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-8 text-left">
+                                <div class="link-container">
+                                    <ul class="link-list">
+                                        <li><a id="info-modal-github" href="" target="_blank">GitHub</a></li>
+                                        <li><a id="info-modal-blog" href="" target="_blank">Blog</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-right">
+                                <button id="editbtn" type="button" class="btn btn-primary me-2">수정</button>
+                                <button id="delbtn" type="button" class="btn btn-danger me-2">삭제</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 
     <!-- 멤버 수정 모달 -->
     <div class="modal fade" id="memberEditModal" tabindex="-1" aria-labelledby="memberEditModalLabel"
@@ -557,10 +595,10 @@
 
             $("#memberInfoModalLabel").text(name);
             $("#info-modal-image").attr("src", image);
-            $("#info-modal-role").text(`직책: ${role}`);
-            $("#info-modal-intro").text(`소개: ${intro}`);
-            $("#info-modal-favorite").text(`좋아하는 것: ${favorite}`);
-            $("#info-modal-mbti").text(`MBTI: ${mbti}`);
+            $("#info-modal-role").text(`${role}`);
+            $("#info-modal-intro").text(`${intro}`);
+            $("#info-modal-favorite").text(`${favorite}`);
+            $("#info-modal-mbti").text(`${mbti}`);
             $("#info-modal-github").attr("href", github || "#").text(github ? "GitHub" : "GitHub 등록되지 않음");
             $("#info-modal-blog").attr("href", blog || "#").text(blog ? "Blog" : "Blog 등록되지 않음");
         });
