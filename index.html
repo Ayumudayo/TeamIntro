@@ -26,20 +26,46 @@
 
         /* 배경색 설정 */
         body {
-            background-color: #f5f5f5;
+            background-color: #5385C1;
+            text-align: center;
         }
 
-        /* 메인 배경 이미지 설정 */
+        /* 헤더 섹션 스타일 */
+        header {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.0);
+            /* 투명한 배경 */
+            z-index: 100;
+            padding-top: 5vh;
+        }
+
+        header .nav-link {
+            color: white !important;
+        }
+
+        /* 메인 배경 설정 */
         .main {
             color: white;
-            background-image: url("https://images.unsplash.com/photo-1496389394391-c23f6d8a9954?ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80");
-            background-position: center;
+            background-image: url("image/banner.jpg");
+            background-position: top;
             background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 40vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .main .container-fluid {
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: rgba(0, 0, 0, 0.0);
             border-radius: 10px;
+            padding: 20px;
+            align-items: center;
         }
 
         /* 멤버 추가 입력 폼 스타일 */
@@ -50,16 +76,25 @@
             border: 1px solid #ccc;
             border-radius: 10px;
             display: none;
-            background-color: #fff;
+            background-color: transparent;
         }
 
         .form-floating>input {
             background-color: transparent;
-            color: black;
+            color: white;
         }
 
         .form-floating>label {
-            color: #555;
+            color: white;
+        }
+
+        .form-control:focus {
+            color: white;
+            background-color: transparent;
+        }
+
+        .form-control:focus {
+            background-color: transparent;
         }
 
         .mybtn {
@@ -79,23 +114,67 @@
             margin: 20px auto;
         }
 
+        /* 카드 스타일 수정 */
         .card {
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            border-color: rgba(223, 223, 223, 0.5);
+            background-color: transparent;
+            /* 카드 배경색 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.0);
+            transition: transform 0.2s ease-in-out;
+            margin: 3rem;
+            /* 카드 간 간격 */
+            padding: 5rem;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card-img-wrapper {
+            width: 100%;
+            padding-top: 100%;
+            position: relative;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            /* Center the image and add margin at the bottom */
         }
 
         .card-img-top {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: auto;
-            max-height: 700px;
+            height: 100%;
             object-fit: cover;
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
         }
+
+        .card-body {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .card-title {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .card-text {
+            font-size: 1.25rem;
+            color: #777;
+            color: white;
+        }
+
 
         /* 모달 스타일 */
         .modal-content {
-            background-color: #fff;
+            background-color: #8fb0da;
             color: black;
             border-radius: 10px;
         }
@@ -136,6 +215,21 @@
             background-color: #c82333;
             border-color: #bd2130;
         }
+
+        .btn-text-only {
+            background-color: transparent;
+            border: none;
+            color: #f8f9fa;
+            padding: 0;
+            font-size: 1rem;
+        }
+
+        .nav-link-button {
+            padding: 0.5rem 1rem;
+            color: #f8f9fa;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -143,35 +237,44 @@
     <!-- 헤더 섹션 -->
     <header class="p-3 text-bg-dark">
         <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <div class="d-flex flex-wrap align-items-center justify-content-between">
                 <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
                     <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
                         <use xlink:href="#bootstrap"></use>
                     </svg>
                 </a>
-                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <ul class="nav col-12 col-lg-auto mb-2 justify-content-start mb-md-0">
                     <li>
-                        <a href="#" class="nav-link px-2 text-danger">Team Intro</a>
+                        <a href="index.html" class="nav-link px-2 text-danger">Team Intro</a>
+                    </li>
+                </ul>
+                <ul class="nav col-12 col-lg-auto mb-2 justify-content-end mb-md-0 ms-auto">
+                    <li>
+                        <a href="news.html" class="nav-link px-2 text-danger">News</a>
+                    </li>
+                    <li>
+                        <button class="nav-link-button btn-text-only" id="addbtn">Join</button>
                     </li>
                 </ul>
             </div>
         </div>
     </header>
 
+
     <!-- 메인 섹션 -->
     <div class="main">
-        <div class="p-5 mb-4 bg-body-tertiary rounded-3">
-            <div class="container-fluid py-5">
-                <h1 class="display-5 fw-bold">팀 멤버 소개</h1>
-                <p class="col-md-8 fs-4">
-                    팀의 멤버들을 소개합니다. 멤버의 상세 정보를 확인하고 수정할 수
-                    있습니다.
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">우리는 서버취업존버단 입니다</h1>
+            <div class="d-flex justify-content-center">
+                <p class="col-md-8 fs-4 text-center">
+                    서버 개발자가 되기 위한 동료들을 소개합니다
                 </p>
-                <button id="addbtn" class="btn btn-outline-light" type="button">
-                    멤버 추가하기
-                </button>
             </div>
+            <!-- <button id="addbtn" class="btn btn-outline-light" type="button">
+                멤버 추가하기
+            </button> -->
         </div>
+
     </div>
 
     <!-- 멤버 정보 모달 -->
@@ -297,7 +400,7 @@
             <label for="github">깃허브 URL</label>
         </div>
         <div class="mybtn">
-            <button id="savebtn" type="button" class="btn btn-danger">저장</button>
+            <button id="savebtn" type="button" class="btn btn-primary">저장</button>
         </div>
     </div>
 
@@ -356,7 +459,9 @@
                 let newCard = `
                     <div class="col">
                         <div class="card h-100" data-bs-toggle="modal" data-bs-target="#memberInfoModal" data-id="${doc.id}" data-intro="${member.intro}" data-github="${member.github}"data-blog="${member.blog}" data-favorite="${member.favorite}" data-mbti="${member.mbti}">
-                            <img src="${member.image}" class="card-img-top" style="width: 100%; height: 300px; object-fit: cover;" alt="멤버 이미지">
+                            <div class="card-img-wrapper">
+                                <img src="${member.image}" class="card-img-top" alt="멤버 이미지">
+                            </div>
                             <div class="card-body">
                                 <h5 class="card-title">${member.name}</h5>
                                 <p class="card-text">${member.role}</p>
@@ -407,12 +512,19 @@
             var role = card.find(".card-text").text();
             var intro = card.data("intro");
             var github = card.data("github");
+            var favorite = card.data("favorite");
+            var blog = card.data("blog");
+            var mbti = card.data("mbti");
+
 
             $("#modal-image-input").val(image);
             $("#modal-name-input").val(name);
             $("#modal-role-input").val(role);
             $("#modal-intro-input").val(intro);
             $("#modal-github-input").val(github);
+            $("#modal-favorite-input").val(favorite);
+            $("#modal-blog-input").val(blog);
+            $("#modal-mbti-input").val(mbti);
 
             $("#memberEditModal").modal("show");
         });
