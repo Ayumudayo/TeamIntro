@@ -1,0 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap");
+
+* {
+    font-family: "IBM Plex Sans KR", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+header {
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.0);
+    /* 투명한 배경 */
+    z-index: 100;
+    padding-top: 5vh, 0, 0, 0, ;
+    margin: 5vh, 0, 0, 0;
+}
+
+body {
+    background-color: transparent;
+    background-image: url("image/banner.jpg");
+    background-size: cover;
+}
+
+h1 {
+    text-align: center;
+    color: white
+}
+
+.card {
+    margin-top: 30px;
+    background-color: transparent;
+
+    border-color: #ccc;
+    border-width: 1px;
+    border-radius: 8px;
+}
+
+.card-header {
+    background-color: #5385C1;
+    width: 100%;
+    height: 120%;
+
+    color: rgb(255, 255, 255);
+    border-radius: 10px;
+    font-size: 140%;
+
+    a {
+        text-decoration-line: none;
+        color: inherit;
+        font-weight: bold;
+    }
+}
+
+a:hover {
+    color: rgb(15, 15, 15);
+}
+
+.card-body {
+    background-color: rgba(58, 56, 56, 0.5);
+    color: rgb(255, 255, 255);
+    border-color: white;
+
+}
+
+.blockquote-footer {
+    margin-top: 10px;
+    font-size: 80%;
+    color: rgb(255, 255, 255);
+
+}
+
+.results-wrapper {
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px auto;
+    width: 60%;
+    background-color: sky;
+}
+
+.main {
+    color: white;
+    background-image: url("image/banner.jpg");
+    background-position: top;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    min-height: 30vh;
+    /* 상단 부분 높이 줄이기 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.main .container-fluid {
+    background-color: rgba(0, 0, 0, 0.0);
+    border-radius: 10px;
+    padding: 20px;
+    align-items: center;
+}
