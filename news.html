@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Page</title>
+    <!-- jQuery 라이브러리 추가 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Bootstrap CSS 추가 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <link rel="stylesheet" href="assets\style\news.css">
+</head>
+
+<body>
+    <!-- 헤더 섹션 -->
+    <header class="p-3 text-bg-dark">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-between">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                        <use xlink:href="#bootstrap"></use>
+                    </svg>
+                </a>
+                <ul class="nav col-12 col-lg-auto mb-2 justify-content-start mb-md-0">
+                    <li>
+                        <a href="index.html" class="nav-link px-2 text-white">서버취업존버단</a>
+                    </li>
+                </ul>
+                <ul class="nav col-12 col-lg-auto mb-2 justify-content-end mb-md-0 ms-auto">
+                    <li>
+                        <a href="index.html" class="nav-link px-2 text-white">Home</a>
+                    </li>
+                    <li>
+                        <a href="news.html" class="nav-link px-2 text-white">News</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <h1> NEWS </h1>
+    </header>
+
+    <div class="results-wrapper" id="results"></div>
+
+    <script type="module" src="assets\js\news-api.js"></script>
+    <!-- Bootstrap JS 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
