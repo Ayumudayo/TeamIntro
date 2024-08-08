@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naver News Search API Example</title>
+    <!-- jQuery 라이브러리 추가 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Bootstrap CSS 추가 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap");
+
+        * {
+            font-family: "IBM Plex Sans KR", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        header {
+            width: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.0);
+            /* 투명한 배경 */
+            z-index: 100;
+            padding-top: 5vh, 0, 0, 0, ;
+            margin: 5vh, 0, 0, 0;
+        }
+
+        body {
+            background-color: transparent;
+            background-image: url("image/banner.jpg");
+            background-size: cover;
+        }
+
+        h1 {
+            text-align: center;
+            color: white
+        }
+
+        .card {
+            margin-top: 30px;
+            background-color: transparent;
+
+            border-color: #ccc;
+            border-width: 1px;
+            border-radius: 8px;
+        }
+
+        .card-header {
+            background-color: #5385C1;
+            width: 100%;
+            height: 120%;
+
+
+            color: rgb(255, 255, 255);
+            border-radius: 10px;
+            font-size: 140%;
+
+            a {
+                text-decoration-line: none;
+                color: inherit;
+                font-weight: bold;
+            }
+        }
+
+        a:hover {
+            color: rgb(15, 15, 15);
+        }
+
+        .card-body {
+            background-color: rgba(58, 56, 56, 0.5);
+            color: rgb(255, 255, 255);
+            border-color: white;
+
+        }
+        
+        .blockquote-footer {
+            margin-top: 10px;
+            font-size: 80%;
+            color: rgb(255, 255, 255);
+
+        }
+
+        .results-wrapper {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px auto;
+            width: 60%;
+            background-color: sky;
+        }
+
+        .main {
+            color: white;
+            background-image: url("image/banner.jpg");
+            background-position: top;
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 30vh;
+            /* 상단 부분 높이 줄이기 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main .container-fluid {
+            background-color: rgba(0, 0, 0, 0.0);
+            border-radius: 10px;
+            padding: 20px;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 헤더 섹션 -->
+    <header class="p-3 text-bg-dark">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-between">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                        <use xlink:href="#bootstrap"></use>
+                    </svg>
+                </a>
+                <ul class="nav col-12 col-lg-auto mb-2 justify-content-start mb-md-0">
+                    <li>
+                        <a href="index.html" class="nav-link px-2 text-white">서버취업존버단</a>
+                    </li>
+                </ul>
+                <ul class="nav col-12 col-lg-auto mb-2 justify-content-end mb-md-0 ms-auto">
+                    <li>
+                        <a href="index.html" class="nav-link px-2 text-white">Home</a>
+                    </li>
+                    <li>
+                        <a href="news.html" class="nav-link px-2 text-white">News</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <h1> NEWS </h1>
+    </header>
+
+    <div class="results-wrapper" id="results"></div>
+
+    <script>
+        // 검색할 키워드 설정
+        const query = '스파르타 코딩클럽';
+
+        // API 호출 함수
+        function searchNews() {
+            const url = `http://1.251.32.227:3000/search?query=${encodeURIComponent(query)}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    // 기사 시간별 오름차순으로 정렬
+                    data.items.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+                    // 상위 4개의 기사만 표시
+                    displayResults(data.items.slice(0, 7));
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // 날짜 형식 변환 함수
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+            return new Date(dateString).toLocaleDateString('ko-KR', options);
+        }
+
+        // 결과를 화면에 표시하는 함수
+        function displayResults(items) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+
+            items.forEach(item => {
+                const resultItem = document.createElement('div');
+                resultItem.className = 'result-item';
+                resultItem.innerHTML = `
+                <div class="card">
+                <div class="card-header">
+                <a href="${item.link}" target="_blank">${item.title}</a class="title"> </div>
+                <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                <p>${item.description}</p>
+                <footer class="blockquote-footer"><strong>게시 시간:</strong> ${formatDate(item.pubDate)}<cite title="Source Title"></cite></footer>
+                </blockquote>
+                </div>
+                </div>`;
+
+
+                resultsDiv.appendChild(resultItem);
+            });
+        }
+
+        // 페이지 로드 시 API 호출
+        window.onload = searchNews;
+    </script>
+
+    <!-- Bootstrap JS 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
