@@ -50,7 +50,9 @@
             <h1 class="display-5 fw-bold">우리는 서버취업존버단 입니다</h1>
             <div class="d-flex justify-content-center">
                 <p class="col-md-8 fs-4 text-center">
-                    서버 개발자가 되기 위한 과정을 함께하는 동료들을 소개합니다
+                    초보 4명의 시작은 미미할지도 모릅니다<br>
+                    하지만 존버로 창대해지리라 믿습니다<br>
+                    닥. 존. 버.
                 </p>
             </div>
         </div>
@@ -70,9 +72,9 @@
                         <div class="row">
                             <div class="col-md-8 text-left">
                                 <p><strong>직책:</strong> <span id="info-modal-role"></span></p>
-                                <p><strong>소개:</strong> <span id="info-modal-intro"></span></p>
                                 <p><strong>MBTI:</strong> <span id="info-modal-mbti"></span></p>
                                 <p><strong>좋아하는 것:</strong> <span id="info-modal-favorite"></span></p>
+                                <p><strong>소개:</strong> <span id="info-modal-intro"></span></p>
                             </div>
                             <div class="col-md-4">
                                 <img id="info-modal-image" src="" class="img-fluid mb-3" alt="Member Image" />
@@ -121,6 +123,10 @@
                         <label for="modal-name-input">멤버 이름</label>
                     </div>
                     <div class="form-floating mb-3">
+                        <input type="text" id="modal-role-input" class="form-control" placeholder="멤버 직책" />
+                        <label for="modal-role-input">멤버 직책</label>
+                    </div>
+                    <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="modal-mbti-input" placeholder="MBTI" />
                         <label for="modal-mbti-input">MBTI</label>
                     </div>
@@ -129,16 +135,12 @@
                         <label for="modal-favorite-input">좋아하는것</label>
                     </div>
                     <div class="form-floating mb-3">
+                        <input type="text" id="modal-intro-input" class="form-control" placeholder="소개" />
+                        <label for="modal-intro-input">소개</label>
+                    </div>
+                    <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="modal-blog-input" placeholder="blog" />
                         <label for="modal-blog-input">블로그</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="text" id="modal-role-input" class="form-control" placeholder="멤버 직책" />
-                        <label for="modal-role-input">멤버 직책</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <textarea type="text" id="modal-intro-input" class="form-control" placeholder="소개" />
-                        <label for="modal-intro-input">소개</label>
                     </div>
                     <div class="form-floating mb-3">
                         <input type="text" id="modal-github-input" class="form-control" placeholder="깃허브 URL" />
@@ -180,12 +182,12 @@
             <label for="favorite">좋아하는것</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="blog" placeholder="블로그" />
-            <label for="blog">블로그</label>
+            <input type="text" class="form-control" id="intro" placeholder="소개" />
+            <label for="intro">소개</label>
         </div>
         <div class="form-floating mb-3">
-            <textarea type="text" class="form-control" id="intro" placeholder="소개" />
-            <label for="intro">소개</label>
+            <input type="text" class="form-control" id="blog" placeholder="블로그" />
+            <label for="blog">블로그</label>
         </div>
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="github" placeholder="깃허브 URL" />
