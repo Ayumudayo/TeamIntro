@@ -85,7 +85,7 @@ $("#savebtn").click(async function () {
             image: $("#image").val(),
             name: $("#name").val(),
             role: $("#role").val(),
-            intro: $("#intro").val(),
+            intro: $("#intro").val(), // textarea의 value 가져오기
             github: $("#github").val(),
             favorite: $("#favorite").val(),
             blog: $("#blog").val(),
@@ -109,7 +109,7 @@ $("#save-modal-btn").click(async function () {
             image: $("#modal-image-input").val(),
             name: $("#modal-name-input").val(),
             role: $("#modal-role-input").val(),
-            intro: $("#modal-intro-input").val(),
+            intro: $("#modal-intro-input").val(), // textarea의 value 가져오기
             github: $("#modal-github-input").val(),
             favorite: $("#modal-favorite-input").val(),
             blog: $("#modal-blog-input").val(),
