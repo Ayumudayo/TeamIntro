@@ -3,7 +3,8 @@ const query = '스파르타 코딩클럽';
 
 // API 호출 함수
 function searchNews() {
-    const url = `https://newsapi-k17d.onrender.com/search?query=${encodeURIComponent(query)}`;
+    //const url = `https://newsapi-k17d.onrender.com/search?query=${encodeURIComponent(query)}`;
+    const url = `https://newsapi-production-531e.up.railway.app/search?query=${encodeURIComponent(query)}`;
 
     fetch(url)
         .then(response => response.json())
