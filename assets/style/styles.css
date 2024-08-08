@@ -184,6 +184,10 @@ header .nav-link {
     text-align: left;
 }
 
+.modal-body p, .modal-body span {
+    word-wrap: break-word; /* 긴 텍스트 줄바꿈 설정 */
+}
+
 .modal-footer .link-container {
     text-align: left;
 }
