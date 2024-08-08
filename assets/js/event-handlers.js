@@ -7,7 +7,7 @@ $(document).ready(async function () {
     members.forEach((member) => {
         let newCard = `
             <div class="col">
-                <div class="card h-100" data-bs-toggle="modal" data-bs-target="#memberInfoModal" data-id="${member.id}" data-intro="${encodeURIComponent(member.intro)}" data-github="${member.github}" data-blog="${member.blog}" data-favorite="${member.favorite}" data-mbti="${member.mbti}">
+                <div class="card h-100" data-bs-toggle="modal" data-bs-target="#memberInfoModal" data-id="${member.id}" data-intro="${member.intro}" data-github="${member.github}" data-blog="${member.blog}" data-favorite="${member.favorite}" data-mbti="${member.mbti}">
                     <div class="card-img-wrapper">
                         <img src="${member.image}" class="card-img-top" alt="멤버 이미지">
                     </div>
@@ -32,7 +32,7 @@ $("#memberInfoModal").on("show.bs.modal", function (event) {
     var image = card.find(".card-img-top").attr("src");
     var name = card.find(".card-title").text();
     var role = card.find(".card-text").text();
-    var intro = decodeURIComponent(card.data("intro"));
+    var intro = card.data("intro");
     var github = card.data("github");
     var favorite = card.data("favorite");
     var blog = card.data("blog");
@@ -41,7 +41,7 @@ $("#memberInfoModal").on("show.bs.modal", function (event) {
     $("#memberInfoModalLabel").text(name);
     $("#info-modal-image").attr("src", image);
     $("#info-modal-role").text(`${role}`);
-    $("#info-modal-intro").html(intro.replace(/\n/g, '<br>'));  // 줄바꿈을 <br>로 변환하여 표시
+    $("#info-modal-intro").text(`${intro}`);
     $("#info-modal-favorite").text(`${favorite}`);
     $("#info-modal-mbti").text(`${mbti}`);
     $("#info-modal-github").attr("href", github || "#").text(github ? "GitHub" : "GitHub 등록되지 않음");
@@ -55,7 +55,7 @@ $("#editbtn").click(function () {
     var image = card.find(".card-img-top").attr("src");
     var name = card.find(".card-title").text();
     var role = card.find(".card-text").text();
-    var intro = decodeURIComponent(card.data("intro"));
+    var intro = card.data("intro");
     var github = card.data("github");
     var favorite = card.data("favorite");
     var blog = card.data("blog");
@@ -121,7 +121,7 @@ $("#save-modal-btn").click(async function () {
         currentEditCard.find(".card-img-top").attr("src", member.image);
         currentEditCard.find(".card-title").text(member.name);
         currentEditCard.find(".card-text").text(member.role);
-        currentEditCard.data("intro", encodeURIComponent(member.intro)); // 줄바꿈 처리하여 데이터 저장
+        currentEditCard.data("intro", member.intro);
         currentEditCard.data("mbti", member.mbti);
         currentEditCard.data("blog", member.blog);
         currentEditCard.data("favorite", member.favorite);
